@@ -33,18 +33,16 @@ streamlit.dataframe(fruits_to_show)
 streamlit.header('Fruityvice Fruit Advice!')
 
 #Add a Text Entry Box and Send the Input to Fruityvice as Part of the API Call
-fruit_choice = streamlit.text_input('What fruit would you like information about?','Kiwi')
-streamlit.write('the user entered',fruit_choice)
-
-
-#import requests
-fruityvice_response = requests.get("https://fruityvice.com/api/fruit/"+fruit_choice)
-# streamlit.text(fruityvice_response.json())
-
-#take json resonse and normalise it to look more like table and less like code
-fruitvice_normalized = pandas.json_normalize(fruityvice_response.json())
-#output of the above is a dataframe (table) not just text
-streamlit.dataframe(fruitvice_normalized)
+try:
+  fruit_choice = streamlit.text_input('What fruit would you like information about?')
+  if not fruit_choice:
+      streamlit.error("Please select a fruit to get information.")
+  else:
+      fruityvice_response = requests.get("https://fruityvice.com/api/fruit/"+fruit_choice)
+      fruitvice_normalized = pandas.json_normalize(fruityvice_response.json())
+      streamlit.dataframe(fruitvice_normalized)
+except URLError as e:
+  streamlit.error()
 
 #dont run anything past here while we troubleshoot
 streamlit.stop()
