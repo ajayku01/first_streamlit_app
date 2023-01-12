@@ -35,4 +35,4 @@ streamlit.text(fruityvice_response.json())
 #take json resonse and normalise it to look more like table and less like code
 fruitvice_normalized = pandas.json_normalize(fruityvice_response.json())
 #output of the above is a dataframe (table) not just text
-streamlit.dataframe(fruityvice_normailized)
+streamlit.dataframe(fruitvice_normalized)
